@@ -13,7 +13,7 @@ public class Ball : MonoBehaviour
     {
         Debug.Log(Vector3.down);
         _rigidbody = GetComponent<Rigidbody>();
-        _rigidbody.velocity = Vector3.down * _speed;
+        _rigidbody.velocity = Vector3.up * _speed;
 
     }
 
