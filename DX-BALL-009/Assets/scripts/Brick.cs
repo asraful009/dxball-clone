@@ -30,6 +30,7 @@ public class Brick : MonoBehaviour
 
         if (lifes<=0) 
         {
+            GameManager.Instance.Score += points;
             Destroy(gameObject);
         }
         if(hitMatireal) 
