@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        //print(transform.TransformPoint(Vector3.zero));
         _rigidbody.MovePosition(
             new Vector3(
                 Camera.main.ScreenToWorldPoint(

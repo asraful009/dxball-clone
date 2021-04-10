@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,6 +23,7 @@ public class GameManager : MonoBehaviour
     State _state;
 
     GameObject _currentBall;
+    GameObject _currentPlayer;
     GameObject _currentLevel;
 
     private int _score;
@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
         set 
         { 
             _score = value;
-            txtScore.text = "SCORE :" + _score;
+            txtScore.text = "SCORE : " + _score;
         }
     }
 
@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
         set 
         {
             _life = value;
-            txtLife.text = "LIFE :" + _life;
+            txtLife.text = "LIFE : " + _life;
         }
     }
 
@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
         set 
         {
             _level = value;
-            txtLevel.text = "LEVEL :" + _level;
+            txtLevel.text = "LEVEL : " + _level;
         }
     }
 
@@ -70,6 +70,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        _isStateSwitch = false;
         Instance = this;
         SwitchState(State.MENU);
     }
@@ -77,10 +78,7 @@ public class GameManager : MonoBehaviour
 
     public void SwitchState(State state, float delay = 0f)
     {
-        //StartCoroutine(SwitchDelay(state, delay));
-        EndState();
-        _state = state;
-        BeginState(state);
+        StartCoroutine(SwitchDelay(state, delay));
     }
 
     IEnumerator SwitchDelay(State state, float delay)
@@ -105,7 +103,8 @@ public class GameManager : MonoBehaviour
                 Score = 0;
                 Life = 3;
                 Level = 0;
-                Instantiate(PlayerPrefab);
+                _currentPlayer = Instantiate(PlayerPrefab);
+                _currentPlayer.name = "Player";
                 SwitchState(State.LOAD_LEVEL);
                 break;
             case State.PLAY:
@@ -139,7 +138,7 @@ public class GameManager : MonoBehaviour
             case State.INIT:
                 break;
             case State.PLAY:
-                if(_currentBall)
+                if(_currentBall == null)
                 {
                     if(Life > 0)
                     {

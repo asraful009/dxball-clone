@@ -125,6 +125,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c0a8218a0b66f0a0b062f88c53f450e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifes: 2
-  points: 10
+  lifes: 3
+  points: 40
   hitMatireal: {fileID: 2100000, guid: 7b67288820c90f263903398db46967c3, type: 2}

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6426665330076027881}
   - component: {fileID: 5795658470140741752}
   m_Layer: 0
-  m_Name: Brick
+  m_Name: Brick-0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -126,5 +126,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifes: 2
-  points: 10
+  points: 20
   hitMatireal: {fileID: 2100000, guid: 7b67288820c90f263903398db46967c3, type: 2}

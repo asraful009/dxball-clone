@@ -23,10 +23,24 @@ public class Ball : MonoBehaviour
         _rigidbody.velocity = _rigidbody.velocity.normalized * _speed;
         _velocity = _rigidbody.velocity;
 
+
     }
 
     void OnCollisionEnter(Collision collision) 
     {
-        _rigidbody.velocity = Vector3.Reflect(_velocity, collision.contacts[0].normal);
+        Vector3 angleV = new Vector3(0, 0, 0);
+        if(collision.collider.name == "Player") 
+        {
+            Vector3 width = collision.gameObject.GetComponent<Collider>().bounds.size;
+            angleV.x = 
+                Mathf.Abs(
+                    transform.TransformPoint(Vector3.zero).x 
+                    - 
+                    collision.gameObject.transform.TransformPoint(Vector3.zero).x
+                )/width.x;
+            print(angleV);
+            //Instantiate(collision, pos, rot);
+        }
+        _rigidbody.velocity = Vector3.Reflect(_velocity, collision.contacts[0].normal+ angleV);
     }
 }
