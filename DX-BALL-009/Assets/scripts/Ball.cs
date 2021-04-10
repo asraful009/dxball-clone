@@ -41,6 +41,6 @@ public class Ball : MonoBehaviour
             print(angleV);
             //Instantiate(collision, pos, rot);
         }
-        _rigidbody.velocity = Vector3.Reflect(_velocity, collision.contacts[0].normal+ angleV);
+        _rigidbody.velocity = Vector3.Reflect(_velocity, collision.contacts[0].normal + angleV);
     }
 }
