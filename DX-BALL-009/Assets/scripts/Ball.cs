@@ -33,12 +33,12 @@ public class Ball : MonoBehaviour
         {
             Vector3 width = collision.gameObject.GetComponent<Collider>().bounds.size;
             angleV.x = 
-                Mathf.Abs(
+                (
                     transform.TransformPoint(Vector3.zero).x 
                     - 
                     collision.gameObject.transform.TransformPoint(Vector3.zero).x
                 )/width.x;
-            print(angleV);
+            //print("[" + Time.time.ToString() + "] :" +  angleV);
             //Instantiate(collision, pos, rot);
         }
         _rigidbody.velocity = Vector3.Reflect(_velocity, collision.contacts[0].normal + angleV);
