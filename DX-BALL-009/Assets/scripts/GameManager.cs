@@ -14,10 +14,10 @@ public class GameManager : MonoBehaviour
     public GameObject panelGameOver;
 
 
-
     public Text txtScore;
     public Text txtLife;
     public Text txtLevel;
+    public Text txtHightScore;
 
     public enum State { MENU, INIT, PLAY, LOAD_LEVEL, GAME_OVER, LEVEL_COMPLETED };
     State _state;
@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     GameObject _currentPlayer;
     GameObject _currentLevel;
 
+    private int _hightScore;
     private int _score;
     private int _life;
     private int _level;
@@ -59,7 +60,7 @@ public class GameManager : MonoBehaviour
         set 
         {
             _level = value;
-            txtLevel.text = "LEVEL : " + _level;
+            txtLevel.text = "LEVEL : " + (_level + 1);
         }
     }
 
@@ -70,6 +71,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        _hightScore = 0;
         _isStateSwitch = false;
         Instance = this;
         SwitchState(State.MENU);
@@ -96,9 +98,12 @@ public class GameManager : MonoBehaviour
         switch (state)
         {
             case State.MENU:
+                Cursor.visible = true;
                 panelMenu.SetActive(true);
+                txtHightScore.text = "HIGH SCORE: " + _hightScore;
                 break;
             case State.INIT:
+                Cursor.visible = false;
                 panelPlay.SetActive(true);
                 Score = 0;
                 Life = 3;
@@ -116,14 +121,24 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
+                    _currentPlayer = Instantiate(PlayerPrefab);
+                    panelPlay.SetActive(true);
                     _currentLevel = Instantiate(levels[Level]);
                     SwitchState(State.PLAY);
                 }
                 break;
             case State.LEVEL_COMPLETED:
+                Destroy(_currentBall);
+                Destroy(_currentLevel);
+                Destroy(_currentPlayer);
+                Level++;
                 panelLevelCompleted.SetActive(true);
+                SwitchState(State.LOAD_LEVEL, 1f);
                 break;
             case State.GAME_OVER:
+                if(_currentBall != null) Destroy(_currentBall);
+                if (_currentLevel != null) Destroy(_currentLevel);
+                if (_currentPlayer != null) Destroy(_currentPlayer);
                 panelGameOver.SetActive(true);
                 break;
         }
@@ -149,12 +164,24 @@ public class GameManager : MonoBehaviour
                         SwitchState(State.GAME_OVER);
                     }
                 }
+                if(_currentLevel != null && _currentLevel.transform.childCount == 0 && _isStateSwitch == false) 
+                {
+                    SwitchState(State.LEVEL_COMPLETED);
+                }
                 break;
             case State.LOAD_LEVEL:
                 break;
             case State.LEVEL_COMPLETED:
                 break;
             case State.GAME_OVER:
+                if(Input.anyKey) 
+                {
+                    if(_hightScore < Score) 
+                    {
+                        _hightScore = Score;
+                    }
+                    SwitchState(State.MENU);
+                }
                 break;
         }
     }
@@ -173,6 +200,7 @@ public class GameManager : MonoBehaviour
             case State.LOAD_LEVEL:
                 break;
             case State.LEVEL_COMPLETED:
+                panelPlay.SetActive(false);
                 panelLevelCompleted.SetActive(false);
                 break;
             case State.GAME_OVER:

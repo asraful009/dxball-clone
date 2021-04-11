@@ -7,14 +7,20 @@ public class Ball : MonoBehaviour
     public float _speed = 40f;
     Vector3 _velocity;
     Rigidbody _rigidbody;
+    Renderer _render;
 
     // Start is called before the first frame update
     void Start()
     {
         Debug.Log(Vector3.down);
         _rigidbody = GetComponent<Rigidbody>();
-        _rigidbody.velocity = Vector3.up * _speed;
+        _render = GetComponent<Renderer>();
+        Invoke("Launch", 0.5f);
+    }
 
+    private void Launch()
+    {
+        _rigidbody.velocity = Vector3.up * _speed;
     }
 
     // Update is called once per frame
@@ -22,7 +28,11 @@ public class Ball : MonoBehaviour
     {
         _rigidbody.velocity = _rigidbody.velocity.normalized * _speed;
         _velocity = _rigidbody.velocity;
-
+        if(_render.isVisible == false) 
+        {
+            GameManager.Instance.Life--;
+            Destroy(gameObject);
+        }
 
     }
 
