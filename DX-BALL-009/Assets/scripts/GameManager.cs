@@ -95,6 +95,7 @@ public class GameManager : MonoBehaviour
 
     void BeginState(State state)
     {
+        Debug.Log(state);
         switch (state)
         {
             case State.MENU:
@@ -108,6 +109,7 @@ public class GameManager : MonoBehaviour
                 Score = 0;
                 Life = 3;
                 Level = 0;
+                if (_currentPlayer != null) Destroy(_currentPlayer);
                 _currentPlayer = Instantiate(PlayerPrefab);
                 _currentPlayer.name = "Player";
                 SwitchState(State.LOAD_LEVEL);
@@ -121,7 +123,9 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
+                    if (_currentPlayer != null) Destroy(_currentPlayer);
                     _currentPlayer = Instantiate(PlayerPrefab);
+                    _currentPlayer.name = "Player";
                     panelPlay.SetActive(true);
                     _currentLevel = Instantiate(levels[Level]);
                     SwitchState(State.PLAY);
